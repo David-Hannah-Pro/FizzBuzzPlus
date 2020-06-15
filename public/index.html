@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=PT+Sans&family=Rubik:wght@400;500&display=swap" rel="stylesheet">        
+    <link rel="stylesheet" href="styles.css">
+    <title>FizzBuzz +</title>
+</head>
+<body>
+    <!-- NAvBAR -->
+    <nav class="navbar">
+        PlaceHolder for Protfolio NavBar
+    </nav>
+
+    <!-- Header -->
+    <div class="header-container">
+      <div id="app-title">FizzBuzz<span id="plus">+</span></div>
+      <button class="learn-more-btn">Learn More</button>
+    </div>
+    <hr class="main-line">
+
+    <!-- Description -->
+    <div class="text-description">
+        <p>
+            FizzBuzz is a classic programming challenge where the developer must write a program that prints each number from 1-100. For each multiple of 3, print "Fizz" instead of the number. For each multiple of 5, print "Buzz" instead of the number. For numbers that are a multiple of both 3 and 5 write "FizzBuzz".
+        </p>
+        <p>
+            In this take on the classic challenge, the user can define what word to print and the multiple. The user can also select a color for each word.
+        </p>
+
+        <button class="close-description">close</button>
+    </div>
+
+    <!-- App Section -->
+    <section id="app-section">
+
+        <section class="left-column">
+            <section id="rules-section">
+                <section id="rules-header">
+                    <h1>Rules</h1>
+                    <button id="reset-all-btn">Reset</button>        
+                </section>
+
+                <hr class="app-line">
+                <div id="word-rules"></div>
+                <div id="add-new-button"></div>
+            </section>
+            <section id="color-section">
+                <h1 id="color-header">Colors</h1>
+                <hr class="app-line">
+                <div id="color-rules"></div>
+            </section>
+        </section>
+
+        <section class="right-column">
+            <div id="FB-display">
+            </div>
+        </section>
+
+    </section>
+
+
+    <!-- JS files -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="scripts/functions.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
