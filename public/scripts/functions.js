@@ -1,3 +1,62 @@
+//TEMPORARY Word Values
+const wordArray = [
+   'Whizz',
+   'Abuzz',
+   'Hired',
+   'Jazz',
+   'Pazazz',
+   'Blitz',
+   'Actor',
+   'Agent',
+   'Apply',
+   'Begin',
+   'Below',
+   'Love',
+   'Board',
+   'Clean',
+   'Coast',
+   'Beach',
+   'Cabin',
+   'Daily',
+   'Guest',
+   'Human',
+   'Hotel',
+   'Ideal',
+   'Input',
+   'Laugh',
+   'Logic',
+   'Movie',
+   'Novel',
+   'Ocean',
+   'Nurse',
+   'Price',
+   'Power',
+   'Scope',
+   'Sight',
+   'Sleep',
+   'Round',
+   'Prove',
+   'Rural',
+   'Smile',
+   'Storm',
+   'Start',
+   'Speed',
+   'These',
+   'Think',
+   'Sweet',
+   'Style',
+   'Upper',
+   'Young',
+   'Honest',
+   'Write',
+   'Valid',
+   'Unity',
+];
+const randomNumForWord = () => Math.ceil(Math.random()*wordArray.length-1); //Used to select a random word from the array
+
+//Fx that returns a random number between 1-25 - used to generate a default value when adding a new rule
+const randomNum25 = () => Math.ceil(Math.random()*24)+1;
+
 //Populates display with default rules
 const createDefaultRules = () => {
     $('#word-rules').html('');
@@ -13,6 +72,13 @@ const createDefaultRules = () => {
 
     $('.word-input').eq(0).attr('value', 'Fizz');
     $('.word-input').eq(1).attr('value', 'Buzz');
+
+    rulesArray = updateRulesArray();
+   
+    //Creates Default Color Values
+   createColorInputs();
+   $('.color-input').eq(0).attr('value', '#BB86FC');
+   $('.color-input').eq(1).attr('value', '#03DAC5');
 };
 
 //Appends a button to add new rules
@@ -52,8 +118,7 @@ const appendRuleForm = () => {
     wordLabel.text('Write');
 
     //Create Word Input
-    const randomIndex = randomNum50();
-    console.log(wordArray[randomIndex]);
+    const randomIndex = randomNumForWord();
     const wordInput = $('<input></input>');
     wordInput.attr({
         type: 'text',
@@ -99,9 +164,6 @@ const createColorInputs = () => {
 
     //Update each button with corresponding word and append
     rulesArray.forEach(function (rule) {
-        //Sets default color to white instead of black
-        let ruleColor = '';
-        rule.color === '#000000' ? ruleColor = '#fafafa' : ruleColor = rule.color;
 
         //Create Input
         const input = $('<input></input>');
@@ -109,7 +171,7 @@ const createColorInputs = () => {
         input.attr({
             name: 'color-input',
             type: 'color',
-            value: ruleColor
+            value: rule.color
         });
 
         //Create Label
@@ -132,19 +194,13 @@ const updateRulesArray = () => {
     let rulesArray = [];
     const ruleLines = $('.rule-line');
     for(i=0; i<ruleLines.length; i++){
-        let colorCode = '';
-        if ($('.color-input').eq(i).attr('value')===undefined){
-            colorCode = colorArray[i];
-        }else{
-            colorCode = $('.color-input').eq(i).attr('value');
-        };
-
         ruleObject = {
             word: $('.word-input').eq(i).attr('value'),
             num: Number($('.num-input').eq(i).attr('value')),
-            color: colorCode
+            color: $('.color-input').eq(i).attr('value')===undefined ? '#'+("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6) : $('.color-input').eq(i).attr('value')
         }
         rulesArray.push(ruleObject);
+        console.log(ruleObject);
     };
     return rulesArray;
 };
@@ -222,9 +278,16 @@ const addRuleFormListeners = () => {
     $('.remove-button').click(function (e){
         e.preventDefault();
         e.target.parentNode.remove();
-        rulesArray = updateRulesArray();
+
+        const ruleWord = e.target.parentNode.children[2].value;
+        const deletedRuleIndex = rulesArray.findIndex((rule) => rule.word===ruleWord);
+        rulesArray.splice(deletedRuleIndex, 1);
+
+        e.stopImmediatePropagation()//In some edge cases, the remove-button event handler can be added to the same element twice. This line runs on the first event, and prevents a duplicate event from firing
+
         createColorInputs();
         appendFizzBuzzDOM();
+        
         //Checks for maximum of 5 rules
         if($('#word-rules').children().length<=4){
             $('#add-new-button').html('');
@@ -274,15 +337,28 @@ const addAddNewRuleButtonListener = () => {
         //Create notification that maximum rules has been reached
         if($('#word-rules').children().length===5){
             const ruleLimitReached = $('<p></p>');
-            ruleLimitReached.text('maximum of 5 rules');
+            ruleLimitReached.text('maximum of five rules');
             ruleLimitReached.attr('id', 'max-reached');
             $('#add-new-button').html(ruleLimitReached);
         };
 
         //If there are 2 or more rules, enable delte button on first rule
         if (rulesArray.length >= 1){
-            console.log('test');
             $('.remove-button').eq(0).removeAttr('disabled');
         };
     });
+};
+
+//Adds listener for Learn-More section
+const addLearnMoreListener = () => {
+
+   $('.learn-more-btn').click(() => {
+      $('.learn-more-btn').css('display', 'none');
+      $('.text-description').css('display', 'block');
+   });
+
+   $('.close-description').click(() => {
+      $('.text-description').css('display', 'none');
+      $('.learn-more-btn').css('display', 'block');
+   });
 };
